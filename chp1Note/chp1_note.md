@@ -51,18 +51,51 @@ public int hash(KeyType key):
 * Fast and easy to compute
 
 **Collision Handling**
-* Open Hashing
+* Open Hashing (Seperate Chaining)
     * Chaining
-* Closed Hashing
+* Closed Hashing (Open Addressing)
     * Linear Probing
     * Quadratic Probing
     * Double Hashing
 
-**Open Hashing-Chaining**: <br/>
-**Closed Hashing-Linear Probing**: <br/>
-**Closed Hashing-Quadratic Probing**: <br/>
-**Closed Hashing-Double Hashing**: <br/>
-**Hash Table vs Hash Map vs Hash Set**:
+**Open Hashing-Chaining**
+* Each element is a chain that holds multiple keys
+* Linked List or Binary Search Tree
+
+**Closed Hashing-Linear Probing**<br/>
+Let $H_k$ where k = Key \% H. Suppose there is a collision at $H_k$, move to $H_{k+n}$ where $n\in\mathbb{N}$ is the index that does not cause any more collision. 
+* Pros
+    * Linear probing requires less memory.
+
+* Cons
+    * Cluster tend to generate a lot of collisions
+    * It may not be the most efficent solutions since it may take $O(n)$
+
+**Closed Hashing-Quadratic Probing** <br/>
+Let $H_k$ where k = Key \% H. Suppose there is a collision at $H_k$, move to $H_{k} + n^2$ where $n\in\mathbb{N}$ is the index that does not cause any more collision. 
+* Pros
+    * Less likely to have the problem of primary clustering 
+* Cons
+    * Possible that such table could get stuck in an infinite loop
+
+**Closed Hashing-Double Hashing**<br/>
+Let $H_k$ where k = Key \% H and $H' = p -$ (key \% $H$) where $p$ is a prime number. In other words, we have two different hash functions. Suppose a collision occurs at $H_k$, move to $H_k + H' \cdot n$ where $n\in\mathbb{N}$ is the index that does not cause any more collision.
+* Pros
+    * Produces an uniform distribution of records throughout a hash table. It is one of the most effective method for resolving collisions
+    * Does not yield any clusters
+* Cons
+    * As the table fills up, it may cause thrashing where the performance degrades
+
+**Hash Table vs Hash Map vs Hash Set**<br/>
+Java's _Set_ and _Map_ interfaces are two very different collection types.
+
+_Set_: A collection of distinct (non-equal) objects, with no other structure.
+
+_Map_: A mapping from a set of objects (the distinct keys) to a collection of objects (the values).
+
+Hashtable and HashMap both implement Map. HashSet implements Set. They all use hash codes for keys/objects.
+
+Hashtable is a legacy class that almost always should be avoided in favor of HashMap. They do essentially the same thing, except most methods in Hashtable are synchronized, making individual method calls thread-safe.1 You have to provide your own synchronization or other thread safety mechanism if you are using multiple threads and HashMap.
 ****
 ## $ ArrayList & Resizable Arrays
 ****
